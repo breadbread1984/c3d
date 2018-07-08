@@ -1,5 +1,5 @@
 # c3d
-this project implements action recognition algorithm proposed in (C3D: Generic Features for Video Analysis)[https://arxiv.org/pdf/1412.0767v1.pdf] with esimator of Tensorflow
+this project implements action recognition algorithm proposed in [C3D: Generic Features for Video Analysis](https://arxiv.org/pdf/1412.0767v1.pdf) with esimator of Tensorflow
 
 ### Introduction
 
@@ -11,7 +11,7 @@ a trained model is provided on baidu cloud at
 
 > https://pan.baidu.com/s/1KmZsUdwxw0E2Nr9DAet7ZQ
 
-if you want to train yourself, you need (UCF101)[http://crcv.ucf.edu/data/UCF101.php] dataset. download it and extract the directory. set the root directory in create_dataset.py. then create a tfrecord format dataset with command
+if you want to train yourself, you need [UCF101](http://crcv.ucf.edu/data/UCF101.php) dataset. download it and extract the directory. set the root directory in create_dataset.py. then create a tfrecord format dataset with command
 
 ```bash
 python create_dataset.py
