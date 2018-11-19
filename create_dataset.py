@@ -32,7 +32,7 @@ def video2sample(ucf_rootdir):
 					samplelist.append((vp,i));
 			i = i + 1;
 	#output id->classname map to file
-	with open('id2classname.dat','w') as f:
+	with open('id2classname.dat','wb') as f:
 		f.write(pickle.dumps(classname));
 	#shuffle samples
 	shuffle(samplelist);
