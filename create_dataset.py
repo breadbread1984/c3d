@@ -11,7 +11,7 @@ import pickle;
 
 def video2sample(ucf_rootdir):
 	if False == os.path.exists(ucf_rootdir) or False == os.path.isdir(ucf_rootdir):
-		print "invalid UCF root directory!";
+		print("invalid UCF root directory!");
 		exit(1);
 	dirs = [d for d in os.listdir(ucf_rootdir)];
 
@@ -44,7 +44,7 @@ def video2sample(ucf_rootdir):
 	for sample in samplelist[0:trainset_size]:
 		cap = cv2.VideoCapture(sample[0]);
 		if False == cap.isOpened():
-			print sample[0] + " can't be opened!";
+			print(sample[0] + " can't be opened!");
 			continue;
 		features = np.zeros((16,112,112,3),dtype = np.uint8);
 		count = 0;
@@ -76,7 +76,7 @@ def video2sample(ucf_rootdir):
 	for sample in samplelist[trainset_size:]:
 		cap = cv2.VideoCapture(sample[0]);
 		if False == cap.isOpened():
-			print sample[0] + " can't be opened!";
+			print(sample[0] + " can't be opened!");
 			continue;
 		features = np.zeros((16,112,112,3),dtype = np.uint8);
 		count = 0;
@@ -102,4 +102,4 @@ def video2sample(ucf_rootdir):
 	writer.close();
 
 if __name__ == "__main__":
-	video2sample('/home/sys411/tmp/UCF-101/');
+	video2sample('/home/xieyi/demo/c3d/UCF-101');

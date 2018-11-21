@@ -10,7 +10,7 @@ class ActionRecognition(object):
     def __init__(self):
         self.classifier = tf.estimator.Estimator(model_fn = action_model_fn, model_dir = 'action_classifier_model');
         with open('id2classname.dat','rb') as f:
-            self.labels = pickle.loads(f);
+            self.labels = pickle.loads(f.read());
         f.close();
     def predict(self,fname = None):
         #play video and print the class label
@@ -19,8 +19,8 @@ class ActionRecognition(object):
         if False == cap.isOpened(): raise 'invalid video';
         cv2.namedWindow('show');
         features = np.zeros((16,112,112,3),dtype = np.uint8);
-        int count = 0;
-        int stats = -1;
+        count = 0;
+        status = -1;
         while True:
             if count == 16:
                 #update status
@@ -36,8 +36,9 @@ class ActionRecognition(object):
             cropped = cv2.resize(frame,(160,120))[4:116,24:136];
             features[count,...] = cropped;
             #show labeled frame
-            if status != -1: label = self.labels[status];
-            cv2.putText(frame, label, (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1, 2);
+            if status != -1: 
+                label = self.labels[status];
+                cv2.putText(frame, label, (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1, 2);
             cv2.imshow('show',frame);
             k = cv2.waitKey(25);
             if k == 'q': break;
@@ -46,5 +47,5 @@ class ActionRecognition(object):
 
 if __name__ == "__main__":
     recognizer = ActionRecognition();
-    recognizer.predict('videos/1.avi');
+    recognizer.predict('UCF-101/JumpRope/v_JumpRope_g01_c01.avi');
 
