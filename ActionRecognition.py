@@ -24,7 +24,8 @@ class ActionRecognition(object):
         while True:
             if count == 16:
                 #update status
-                input_fn = lambda:{tf.convert_to_tensor(features)};
+                batch = np.reshape(features,(1,16,112,112,3)).astype(np.float32);
+                input_fn = lambda:tf.convert_to_tensor(batch);
                 prediction = self.classifier.predict(input_fn);
                 status = next(prediction);
                 #top earliest 8 frames in features
@@ -38,7 +39,7 @@ class ActionRecognition(object):
             #show labeled frame
             if status != -1: 
                 label = self.labels[status];
-                cv2.putText(frame, label, (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1, 2);
+                cv2.putText(frame, label, (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0));
             cv2.imshow('show',frame);
             k = cv2.waitKey(25);
             if k == 'q': break;
@@ -47,5 +48,5 @@ class ActionRecognition(object):
 
 if __name__ == "__main__":
     recognizer = ActionRecognition();
-    recognizer.predict('UCF-101/JumpRope/v_JumpRope_g01_c01.avi');
+    recognizer.predict('UCF-101/CricketShot/v_CricketShot_g12_c07.avi');
 
