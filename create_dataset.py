@@ -18,25 +18,23 @@ def video2sample(ucf_rootdir):
 	classname = dict();
 	samplelist = list();
 	#collect all samples
-	for i in range(0,len(dirs)):
-		dirname = dirs[i];
-		if True == os.path.isdir(os.path.join(ucf_rootdir,dirname)):
-			classname[i] = dirname;
-			videos = [v for v in os.listdir(os.path.join(ucf_rootdir,dirname))];
-			#for every video
-			for j in range(0,len(videos)):
-				vidname = videos[j];
-				name,ext = os.path.splitext(vidname);
-				if ext == '.avi' or ext == '.AVI':
-					vp = os.path.join(ucf_rootdir,dirname,vidname);
-					samplelist.append((vp,i));
-			i = i + 1;
+	for i,dirname in enumerate(dirs):
+		assert True == os.path.isdir(os.path.join(ucf_rootdir,dirname));
+		classname[i] = dirname;
+		videos = [v for v in os.listdir(os.path.join(ucf_rootdir,dirname))];
+		#for every video
+		for j in range(0,len(videos)):
+			vidname = videos[j];
+			name,ext = os.path.splitext(vidname);
+			if ext == '.avi' or ext == '.AVI':
+				vp = os.path.join(ucf_rootdir,dirname,vidname);
+				samplelist.append((vp,i));
 	#output id->classname map to file
 	with open('id2classname.dat','wb') as f:
 		f.write(pickle.dumps(classname));
 	#shuffle samples
 	shuffle(samplelist);
-	trainset_size = 9 * len(samplelist) / 10;
+	trainset_size = 9 * len(samplelist) // 10;
 	#write all train samples to tfrecord
 	if True == os.path.exists('trainset.tfrecord'):
 		os.remove('trainset.tfrecord');
