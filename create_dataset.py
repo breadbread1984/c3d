@@ -100,4 +100,4 @@ def video2sample(ucf_rootdir):
 	writer.close();
 
 if __name__ == "__main__":
-	video2sample('/home/xieyi/demo/c3d/UCF-101');
+	video2sample('/mnt/c3d/UCF-101');

@@ -36,3 +36,11 @@ python3 ActionRecognition.py
 ```
 
 a readable label will be printed on the video.
+
+### how to convert model for serving
+
+run following command to get serving model
+
+```bash
+python3 convert_model.py
+```

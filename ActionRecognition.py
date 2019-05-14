@@ -16,8 +16,13 @@ class ActionRecognition(object):
         #play video and print the class label
         assert type(fname) is str;
         cap = cv2.VideoCapture(fname);
+        out = cv2.VideoWriter(
+            "output.avi",
+            cv2.VideoWriter_fourcc(*"XVID"),
+            cap.get(cv2.CAP_PROP_FPS),
+            (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)),int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+        );
         if False == cap.isOpened(): raise 'invalid video';
-        cv2.namedWindow('show');
         features = np.zeros((16,112,112,3),dtype = np.uint8);
         count = 0;
         status = -1;
@@ -25,7 +30,7 @@ class ActionRecognition(object):
             if count == 16:
                 #update status
                 batch = np.reshape(features,(1,16,112,112,3)).astype(np.float32);
-                input_fn = lambda:tf.convert_to_tensor(batch);
+                input_fn = lambda: {"features": tf.convert_to_tensor(batch)};
                 prediction = self.classifier.predict(input_fn);
                 status = next(prediction);
                 #top earliest 8 frames in features
@@ -40,6 +45,7 @@ class ActionRecognition(object):
             if status != -1: 
                 label = self.labels[status];
                 cv2.putText(frame, label, (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0));
+            out.write(frame);
             cv2.imshow('show',frame);
             k = cv2.waitKey(25);
             if k == 'q': break;
@@ -48,5 +54,5 @@ class ActionRecognition(object):
 
 if __name__ == "__main__":
     recognizer = ActionRecognition();
-    recognizer.predict('UCF-101/CricketShot/v_CricketShot_g12_c07.avi');
+    recognizer.predict('UCF-101/JumpingJack/v_JumpingJack_g19_c07.avi');
 
